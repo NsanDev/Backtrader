@@ -1,6 +1,4 @@
-import datetime  # For datetime objects
-
-# Import the backtrader platform
+import datetime
 import backtrader as bt
 import pandas as pd
 import pytz
@@ -12,9 +10,6 @@ class MomentumStrategy(bt.SignalStrategy):
     params = (('lags', 120),)
 
     def __init__(self):
-        # self.addminperiod(self.params.lags)
-        self.vol = bt.indicators.StandardDeviation(period=10,
-                                                   movav=bt.indicators.MovingAverageExponential)
         self.momentum = (self.data - self.data(-self.params.lags))  # /self.vol
         self.signal_add(bt.SIGNAL_LONGSHORT, self.momentum)
 
@@ -25,11 +20,11 @@ class VolAdjustedSizer(bt.Sizer):
               ('movav',bt.indicators.MovingAverageExponential))
 
     def __init__(self):
-        self.vol = bt.indicators.StandardDeviation(period=self.p.window_vol, movav=self.p.movav)
+        self.vol = bt.indicators.StandardDeviation(period=self.p.window_vol, movav=self.p.movav)/252**0.5
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         size = self.p.target_vol/self.vol[0]
-        return int(size)
+        return size
 
 # Create a cerebro entity
 
