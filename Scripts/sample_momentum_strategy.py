@@ -5,10 +5,10 @@ from Sizers.VolSizers import VolAdjustedSizer
 
 
 ticker = 'CL'
-from_date = '2015-01-01'
-to_date = '2017-01-01'
+from_date = '2012-01-01'
+to_date = '2015-01-01'
 
-df = fetch_contract('CL_2015Z', COLUMN_NAMES, '2012-01-01', '2015-01-01') # fetch from lim
+df = fetch_contract('CL_2015Z', COLUMN_NAMES, from_date, to_date) # fetch from lim
 #benchmark = fetch_continuous_contract(ticker, COLUMN_NAMES, from_date, to_date)
 # Create a Data Feed
 df = df.tz_localize('UTC', level=0)
